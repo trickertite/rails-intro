@@ -1,8 +1,12 @@
 -#  This file is app/views/movies/index.html.haml
 %h1 All Movies
--# The link (that is, the <a> tag) for sorting by ‘title’ should have the HTML element id title_header.
--# The link for sorting by ‘release date’ should have the HTML element id release_date_header.
--# The table containing the list of movies should have the HTML element id movies (this has already been set for you by existing code, if you use the version of RP included in this repo).
+
+= form_tag movies_path, :method => :get do
+  Include:
+  - @all_ratings.each do |rating|
+    = rating
+    = check_box_tag "ratings[#{rating}]", 1, if params[:ratings]; params[:ratings].include?(rating) end
+  = submit_tag 'Refresh'
 
 %table#movies
   %thead

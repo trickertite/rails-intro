@@ -5,32 +5,22 @@ class MoviesController < ApplicationController
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
   end
-#if params[:title]
-      #  @color = params[:title]
-     #   @movies = Movie.find(:all, :order => 'title')
-    #elsif params[:rating]
-      #  @color = params[:rating]
-     #   @movies = Movie.find(:all, :order => 'rating')
-    #else params[:release_date]
-       # @color = params[:release_date]
-      #  @movies = Movie.find(:all, :order => 'release_date ASC')
-    #else
-     #   @movies = Movie.all
-    #end
     
   def index
-    #@movies = Movie.all
-    #if params[:sort]
-      #@movies = Movie.find(:all, :order => 'title')
-      @movies = Movie.order(params[:sort])
+      #Movie.uniq.pluck(:rating)
+      #http://stackoverflow.com/questions/9658881/rails-select-unique-values-from-a-column
+      @all_ratings = Movie.uniq.pluck(:rating)
+      params[:ratings] || @all_ratings.each { |v| params[:ratings] ||= {}; params[:ratings][v] = 1 }
+      #params[:ratings] = Hash.new{ |h,key| h[key] = 1 }
+      #@movies = Movie.order(params[:sort])
+      @movies = Movie.where("rating IN (?)",  params[:ratings].keys).order(params[:sort])
+      #@movies.select!{ |movie| params[:ratings][movie.rating] }
       @date_class = @title_class = nil
       if params[:sort] == 'title'
         @title_class = 'hilite'
       elsif params[:sort] == 'release_date'
         @date_class = 'hilite'
       end
-      
-    #end
   end
 
   def new

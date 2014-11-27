@@ -9,7 +9,7 @@ gem 'rails', '3.2.18'
 # for Heroku deployment - as described in Ap. A of ELLS book
 group :development, :test do
   gem 'sqlite3'
-  gem 'debugger'
+  #gem 'debugger'
 end
 
 

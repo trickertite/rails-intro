@@ -5,10 +5,32 @@ class MoviesController < ApplicationController
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
   end
-
+#if params[:title]
+      #  @color = params[:title]
+     #   @movies = Movie.find(:all, :order => 'title')
+    #elsif params[:rating]
+      #  @color = params[:rating]
+     #   @movies = Movie.find(:all, :order => 'rating')
+    #else params[:release_date]
+       # @color = params[:release_date]
+      #  @movies = Movie.find(:all, :order => 'release_date ASC')
+    #else
+     #   @movies = Movie.all
+    #end
+    
   def index
     #@movies = Movie.all
-    @movies = Movie.order(params[:sort])
+    #if params[:sort]
+      #@movies = Movie.find(:all, :order => 'title')
+      @movies = Movie.order(params[:sort])
+      @date_class = @title_class = nil
+      if params[:sort] == 'title'
+        @title_class = 'hilite'
+      elsif params[:sort] == 'release_date'
+        @date_class = 'hilite'
+      end
+      
+    #end
   end
 
   def new
@@ -37,10 +59,6 @@ class MoviesController < ApplicationController
     @movie.destroy
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
-  end
-
-  def sort
-    @movies = Movie.order('title')
   end
 
 end

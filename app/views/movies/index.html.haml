@@ -1,12 +1,17 @@
 -#  This file is app/views/movies/index.html.haml
 %h1 All Movies
+-# The link (that is, the <a> tag) for sorting by ‘title’ should have the HTML element id title_header.
+-# The link for sorting by ‘release date’ should have the HTML element id release_date_header.
+-# The table containing the list of movies should have the HTML element id movies (this has already been set for you by existing code, if you use the version of RP included in this repo).
 
 %table#movies
   %thead
     %tr
-      %th#title_header= link_to 'Movie Title', :sort => 'title'
+      %th{ class: @title_class }
+        = link_to "Movie Title", movies_path({sort: "title" }), id: "title_header"
       %th Rating
-      %th#release_date_header= link_to 'Release Date', :sort => 'release_date'
+      %th{ class: @date_class }
+        = link_to "Release Date", movies_path({sort: "release_date"}), id: "release_date_header"
       %th More Info
   %tbody
     - @movies.each do |movie|

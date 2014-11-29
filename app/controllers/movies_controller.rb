@@ -10,7 +10,8 @@ class MoviesController < ApplicationController
       #Movie.uniq.pluck(:rating)
       #http://stackoverflow.com/questions/9658881/rails-select-unique-values-from-a-column
       @all_ratings = Movie.uniq.pluck(:rating)
-      params[:ratings] || @all_ratings.each { |v| params[:ratings] ||= {}; params[:ratings][v] = 1 }
+      #params[:ratings] || @all_ratings.each { |v| params[:ratings] ||= {}; params[:ratings][v] = 1 }
+      params[:ratings] ||= Hash[@all_ratings.zip([1]*@all_ratings.size)]
       #params[:ratings] = Hash.new{ |h,key| h[key] = 1 }
       #@movies = Movie.order(params[:sort])
       @movies = Movie.where("rating IN (?)",  params[:ratings].keys).order(params[:sort])
